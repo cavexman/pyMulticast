@@ -3,7 +3,15 @@ import socket
 import struct
 import sys
 
-message = b'very important data'
+CHUNK = 1024
+
+#message = b'very important data'
+wf = open('/Users/itzelg/Downloads/beep-01a.wav', 'rb')
+#message = wf.read() 
+  
+
+#message = wf.readframes(CHUNK)
+
 multicast_group = ('224.3.29.71', 10000)
 
 # Create the datagram socket
@@ -19,11 +27,15 @@ ttl = struct.pack('b', 1)
 sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 
 try:
-
-    # Send data to the multicast group
-    print('sending {!r}'.format(message))
-    sent = sock.sendto(message, multicast_group)
-
+    while True:
+	        message = wf.read(CHUNK) 
+	        if not message:
+	            sent = sock.sendto('done', multicast_group)
+	            break	        
+		    # Send data to the multicast group
+		    print('sending {!r}'.format(message))
+		    sent = sock.sendto(message, multicast_group)
+    
     # Look for responses from all recipients
     while True:
         print('waiting to receive')
