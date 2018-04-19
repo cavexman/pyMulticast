@@ -5,6 +5,8 @@ import sys
 import pyaudio
 import wave
 
+CHUNK = 1024
+
 multicast_group = '224.3.29.71'
 server_address = ('', 10000)
 
@@ -37,7 +39,8 @@ while True:
     print('sending acknowledgement to', address)
     sock.sendto(b'ack', address)
 
-    if( data == 'done')
+    if( data == b'done'):
+        print('download complete')
         break
     df.write(data)
 
