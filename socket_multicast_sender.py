@@ -6,7 +6,7 @@ import sys
 CHUNK = 1024
 
 #message = b'very important data'
-wf = open('/Users/itzelg/Downloads/beep-01a.wav', 'rb')
+wf = open('/Users/caveman/Desktop/beep-01a.wav', 'rb')
 #message = wf.read() 
   
 
@@ -28,13 +28,14 @@ sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 
 try:
     while True:
-	        message = wf.read(CHUNK) 
-	        if not message:
-	            sent = sock.sendto('done', multicast_group)
-	            break	        
-		    # Send data to the multicast group
-		    print('sending {!r}'.format(message))
-		    sent = sock.sendto(message, multicast_group)
+            message = wf.read(CHUNK) 
+            if not message:
+                message = b'done'
+                sent = sock.sendto(message, multicast_group)
+                break           
+            # Send data to the multicast group
+            print('sending {!r}'.format(message))
+            sent = sock.sendto(message, multicast_group)
     
     # Look for responses from all recipients
     while True:
