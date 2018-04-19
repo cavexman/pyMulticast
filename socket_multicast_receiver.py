@@ -2,6 +2,8 @@
 import socket
 import struct
 import sys
+import pyaudio
+import wave
 
 multicast_group = '224.3.29.71'
 server_address = ('', 10000)
@@ -21,6 +23,8 @@ sock.setsockopt(
     socket.IP_ADD_MEMBERSHIP,
     mreq)
 
+df = open('/tmp/beep.wav', 'wb')
+
 # Receive/respond loop
 while True:
     print('\nwaiting to receive message')
@@ -32,3 +36,31 @@ while True:
 
     print('sending acknowledgement to', address)
     sock.sendto(b'ack', address)
+
+    if( data == 'done')
+        break
+    df.write(data)
+
+
+
+
+
+wf = wave.open('/tmp/beep.wav', 'rb')
+
+p = pyaudio.PyAudio()
+
+stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
+                channels=wf.getnchannels(),
+                rate=wf.getframerate(),
+                output=True)
+
+snddata = wf.readframes(CHUNK)
+
+while snddata != '':
+    stream.write(snddata)
+    snddata = wf.readframes(CHUNK)
+
+stream.stop_stream()
+stream.close()
+
+p.terminate()
