@@ -33,21 +33,9 @@ try:
                 message = b'done'
                 sent = sock.sendto(message, multicast_group)
                 break           
-            # Send data to the multicast group
-            print('sending {!r}'.format(message))
             sent = sock.sendto(message, multicast_group)
     
-    # Look for responses from all recipients
-    while True:
-        print('waiting to receive')
-        try:
-            data, server = sock.recvfrom(16)
-        except socket.timeout:
-            print('timed out, no more responses')
-            break
-        else:
-            print('received {!r} from {}'.format(
-                data, server))
+ 
 
 finally:
     print('closing socket')
