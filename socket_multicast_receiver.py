@@ -27,25 +27,15 @@ sock.setsockopt(
 
 df = open('/tmp/beep.wav', 'wb')
 
+print('\nwaiting to receive message')
 # Receive/respond loop
 while True:
-    print('\nwaiting to receive message')
     data, address = sock.recvfrom(1024)
-
-    print('received {} bytes from {}'.format(
-        len(data), address))
-    print(data)
-
-    print('sending acknowledgement to', address)
-    sock.sendto(b'ack', address)
 
     if( data == b'done'):
         print('download complete')
         break
     df.write(data)
-
-
-
 
 
 wf = wave.open('/tmp/beep.wav', 'rb')
